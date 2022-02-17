@@ -30,6 +30,7 @@ class hot_topic(object):
         ]
         return USER_AGENTS[random.randint(0, 9)]
 
+
     def crawl_his_tops(self):
         headers={
             "user-agent":self.getRandomAgent(),
@@ -40,12 +41,19 @@ class hot_topic(object):
         spot_topic_set=[]
         for his_news in his_feeds.find_all('tr'):
             entry=his_news.find_all('td')
+            s=entry[1].get_text()
+            s=s.replace(" ", "")
+            s = s.replace(".", "")
+            cop = re.compile("[^\u4e00-\u9fa5^a-z^A-Z^0-9]")  # 匹配不是中文、大小写、数字的其他字符
+            # string1 = '@ad&*jfad张132（www）。。。'
+            string1 = cop.sub('', s)  # 将string1中匹配到的字符替换成空字符
+
             # entry_content={
             #     "标题":entry[1].get_text(),
             #     "热度":entry[2].get_text(),
             #     "链接":domain + entry[1].a.attrs['href']
             # }{"a":1,"b":2,"c":3,"d":4,"e":5}
-            entry_content="{\"title\":"+"\""+entry[1].get_text() +"\""+ ","+"\"link\":"+"\""+domain + entry[1].a.attrs['href']+"\""+"}"
+            entry_content="{\"title\":"+"\""+string1 +"\""+ ","+"\"link\":"+"\""+domain + entry[1].a.attrs['href']+"\""+"}"
             spot_topic_set.append(entry_content)
         return spot_topic_set
 
@@ -58,7 +66,7 @@ if __name__ == '__main__':
         # '百度热榜': "https://tophub.today/n/Jb0vmloB1G",  # 百度热榜
         # '36氪': "https://tophub.today/n/Q1Vd5Ko85R",  # 36氪
         # '少数派': "https://tophub.today/n/Y2KeDGQdNP",  # 少数派
-        # '虎嗅网': "https://tophub.today/n/5VaobgvAj1",  # 虎嗅网ENeYLEZdY4\1VdJzbpdLQ\G47o8weMmN
+        # '虎嗅网': "https://tophub.today/n/5VaobgvAj1",  # 虎嗅网ENeYLEZdY4\1VdJzbpdLQ\G47o8weMmN\MZd7wnDdrO酷安\吾爱破解 今日热帖NKGoRAzel6
     }
 
     domain="https://tophub.today"
@@ -73,6 +81,7 @@ if __name__ == '__main__':
     # print(spot_topic_set)
     for i in spot_topic_set:
         data_dict = json.loads(i)
+        print(data_dict)
         Title=data_dict['title']
         # Title = data_dict['title']
         Url = data_dict['link']
