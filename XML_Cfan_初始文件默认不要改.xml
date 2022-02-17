@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rss version="2.0">
+		<channel>
+			<title>虎扑步行街</title>
+			<link>https://raw.githubusercontent.com/liurenjie520/hupurss/master/README.md</link>
+			<description>Made By Monkey</description>
+			<generator>Python3</generator>
+			<language>zh-cn</language>
+			<lastBuildDate>2022-01-24 182525</lastBuildDate>
+		</channel>
+	</rss>
